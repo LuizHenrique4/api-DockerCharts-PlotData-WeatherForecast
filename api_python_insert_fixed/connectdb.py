@@ -1,13 +1,13 @@
 import mysql.connector
 from credentials import usr, pswd
 
-def insert_db(value1, value2, value3):
+def insert_db(value1, value2, value3, value4):
     try:  
         mydb = mysql.connector.connect(
             host = "localhost",
             user = usr,
             password = pswd,
-            database = "python_db_overwatch"
+            database = "banco_clima_tempo"
         )
 
         if mydb.is_connected():
@@ -16,9 +16,9 @@ def insert_db(value1, value2, value3):
 
             mycursor = mydb.cursor()
 
-            sql_query = "INSERT INTO python_db_overwatch.dados_overwatch(cpu,memoriaRam,disco,dataHora) VALUES (%s,%s, %s,now())"
+            sql_query = "INSERT INTO banco_clima_tempo.status_de_clima(velocidade_do_vento,probabilidade_chuva,umidade,temperatura,data_hora) VALUES (%s,%s,%s,%s,now())"
 
-            val = [value1, value2, value3]
+            val = [value1, value2, value3, value4]
 
             mycursor.execute(sql_query, val)
 
@@ -31,4 +31,4 @@ def insert_db(value1, value2, value3):
         if(mydb.is_connected()):
             mycursor.close()
             mydb.close()
-            print("Conexão com MySQL está fechada\n")
+print("Conexão com MySQL está fechada\n")
