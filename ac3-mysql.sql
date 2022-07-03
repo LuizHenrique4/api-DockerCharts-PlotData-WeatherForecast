@@ -1,12 +1,13 @@
-create database python_db_overwatch;
-use python_db_overwatch;
+create database banco_clima_tempo;
 
-create table dados_overwatch(
-    id int auto_increment primary key,
-    cpu decimal(5,2),
-    memoriaRam decimal(5,2),
-    disco decimal(5,2),
-    dataHora datetime
+use banco_clima_tempo;
+
+create table status_de_clima(
+	velocidade_do_vento decimal(4,2),
+    probabilidade_chuva decimal(4,2),
+    umidade decimal(4,2),
+    temperatura decimal(4,2),
+    data_hora datetime
 );
 
-select * from dados_overwatch;
+select * from status_de_clima;
