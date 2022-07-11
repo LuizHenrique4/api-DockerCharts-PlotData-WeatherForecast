@@ -1,12 +1,12 @@
 import mysql.connector
-from credentials import usr, pswd, banco
+from credentials import usr, pswd, banc
 from main import capture_data
 
 mydb = mysql.connector.connect(
     host="localhost",
     user=usr,
     password=pswd,
-    database=banco
+    database=banc
 )
 
 def insert_db(value1, value2, value3, value4, value5):
@@ -62,7 +62,7 @@ def check_server(fkPais):
   
             
 def check_enterprise():
-  nome_Pais = input("Digite o nome do Pais: ")
+  nome_Pais = input("Digite o nome do país: ")
   verif = 0
   fkPais = 0
   mydb.connect()
