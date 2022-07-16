@@ -1,0 +1,10 @@
+
+1.0=Apagar dependência de inserts do BD
+2.0=Fazer Modelagem-BD
+3.0=Passo a passo no Readme
+4.0=Implantar dashboards
+
+4.0=Versão 2.0 - Consumir api real 
+5.0=Plotar nos gráficos da "api-projeto-site"
+6.0=Subir em container no Docker
+7.0=Implantar graficos
