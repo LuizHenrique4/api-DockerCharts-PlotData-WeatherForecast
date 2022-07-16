@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overwatch - Graficos</title>
+    <link rel="stylesheet" href="./css/dash-css.css">
+    <link rel="shortcut icon" href="Logo.png">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
+    <script type="text/javascript" src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script type="text/javascript" src="funcoes.js"></script>
+
+</head>
+
+<body onload="inicio(), atualizacaoPeriodica()" style="overflow-y: scroll">
+    <div class="sidebar">
+        <div class="logo-content">
+            <div class="logo">
+                <img src="./img/logo-overwatch.png">
+                <div class="nome_logo">Overwacth</div>
+            </div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="lista-nav">
+            <!-- <li> -->
+                <i class='bx bx-search-alt' style="display: none;"></i>
+                <!-- <input type="text" placeholder="Procurar...">
+                <span class="dica">Busca</span>
+            </li> -->
+            <li href="./principal.html">
+                <a href="./principal.html">
+                    <i class='bx bxs-dashboard' href="./principal.html"></i>
+                    <span class="links" href="./principal.html">Principal</span>
+                </a>
+                <span class="dica" href="./principal.html">Principal</span>
+            </li>
+            <li>
+                <a href="./cadastro-user.html">
+                    <i class='bx bx-chat' href="./cadastro-user"></i>
+                    <span class="links" href="./cadastro-user.html">Usuários</span>
+                </a>
+                <span class="dica" href="./cadastro-user.html">Usuários</span>
+            </li>
+            <li>
+                <a href="./pagina-admnistrador.html">
+                    <i class='bx bx-user' href="./pagina-admnistrador.html"></i>
+                    <span class="links" href="./pagina-admnistrador.html">Perfil</span>
+                </a>
+                <span class="dica" href="./pagina-admnistrador.html">Perfil</span>
+            </li>
+            <li href="./dashboard-ow.html">
+                <a href="./dashboard-ow.html">
+                    <i class='bx bx-pie-chart-alt-2' href="./dashboard-ow.html"></i>
+                    <spam class="links" href="./dashboard-ow.html">Graficos</spam>
+                </a>
+                <spam class="dica" href="./dashboard-ow.html">Graficos</spam>
+            </li>
+            <li href="./historico-ow.html">
+                <a href="./historico-ow.html">
+                    <i class='bx bx-history' href="./historico-ow.html"></i>
+                    <spam class="links" href="./historico-ow.html">Historico</spam>
+                </a>
+                <spam class="dica" href="./historico-ow.html">Historico</spam>
+            </li>
+        </ul>
+        <div class="perfil-content">
+            <div class="perfil">
+                <div class="icone-perfil">
+                    <img src="./img/logo-overwatch.png" alt="">
+                    <div class="cargo">
+                        <div id="nome_usuario_logado2" class="nome">Bruno Leonardo</div>
+                        <div class="trabalho">Desenvolvedor</div>
+                    </div>
+                </div>
+                <li>
+
+                    <a href="#">
+
+                        <i class='bx bx-log-out' id='logout' onclick="logoff()"></i>
+                        <span class="links" onclick="logoff()"></span>
+                    </a>
+                </li>
+            </div>
+        </div>
+    </div>
+    <div class="home-content">
+        <div class="header">
+            <div class="header-content">
+                <div class="container-name">
+                    <div id="nome_usuario_logado" class="nome-empresa">Bem vindo, Bruno Leonardo</div>
+                    <div class="ow">Dashboard Overwatch</div>
+                </div>
+                <div class="container-option">
+                    <select id="LangSelect" onchange="escolhas()">
+                        <option onclick="chamargraficos(1)" value="servidor_1">Servidor 1</option>
+                        <option onclick="chamargraficos(2)" value="servidor_2">Servidor 2
+                        </option>
+                        <option onclick="chamargraficos(3)" value="servidor_3">Servidor 3
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="alertas-content">
+            <div id="servidor" class="box-alerta" value="1">
+                <div id="cpu_display1">
+                    <div id="div_cpu" class="quant-numero" style="color: red;">00.0%</div>
+                </div>
+                <div id="cpu_display2" style="display: none;">
+                    <div id="div_cpu2" class="quant-numero" style="color: red;">00.0%</div>
+                </div>
+                <div id="cpu_display3" style="display: none;">
+                    <div id="div_cpu3" class="quant-numero" style="color: red;">00.0%</div>
+                </div>
+                <div class="info-alerta">Funcionamento CPU</div>
+            </div>
+            <div id="servidor" class="box-alerta" value="2">
+                <div id="memoriaRam_display1">
+                    <div id="div_memoriaRam" class="quant-numero" style="color: orange;">00.0%</div>
+                </div>
+                <div id="memoriaRam_display2" style="display: none;">
+                    <div id="div_memoriaRam2" class="quant-numero" style="color: orange;">00.0%</div>
+                </div>
+                <div id="memoriaRam_display3" style="display: none;">
+                    <div id="div_memoriaRam3" class="quant-numero" style="color: orange;">00.0%</div>
+                </div>
+                <div class="info-alerta">Funcionamento RAM</div>
+            </div>
+            <div id="servidor" class="box-alerta" value="3">
+                <div id="disco_display1">
+                    <div id="div_disco" class="quant-numero" style="color: green;">00.0%</div>
+                </div>
+                <div id="disco_display2" style="display: none;">
+                    <div id="div_disco2" class="quant-numero" style="color: green;">00.0%</div>
+                </div>
+                <div id="disco_display3" style="display: none;">
+                    <div id="div_disco3" class="quant-numero" style="color: green;">00.0%</div>
+                </div>
+                <div class="info-alerta">Funcioanamento DISCO</div>
+            </div>
+
+        </div>
+        <div class="teste">
+
+            <div class="container">
+                <div class="dashboard">
+                    <div class="graficos">
+                        <div id="div_aguarde">Dados sendo obtidos...</div>
+                        <canvas id="canvas_grafico"></canvas>
+                    </div>
+                    <div class="graficos">
+                        <div id="div_aguarde2">Dados sendo obtidos...</div>
+                        <canvas id="canvas_grafico2"></canvas>
+                    </div>
+                    <div class="graficos">
+                        <div id="div_aguarde3">Dados sendo obtidos...</div>
+                        <canvas id="canvas_grafico3"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
+
+<script>
+    function escolhas() {
+        var x = document.getElementById("LangSelect").value;
+
+        if (x == "servidor_1") {
+            cpu_display1.style.display = `block`;
+            cpu_display2.style.display = `none`;
+            cpu_display3.style.display = `none`;
+
+            memoriaRam_display1.style.display = `block`;
+            memoriaRam_display2.style.display = `none`;
+            memoriaRam_display3.style.display = `none`;
+
+            disco_display1.style.display = `block`;
+            disco_display2.style.display = `none`;
+            disco_display3.style.display = `none`;
+        } else if (x == "servidor_2") {
+            cpu_display1.style.display = `none`;
+            cpu_display2.style.display = `block`;
+            cpu_display3.style.display = `none`;
+
+            memoriaRam_display1.style.display = `none`;
+            memoriaRam_display2.style.display = `block`;
+            memoriaRam_display3.style.display = `none`;
+
+            disco_display1.style.display = `none`;
+            disco_display2.style.display = `block`;
+            disco_display3.style.display = `none`;
+        } else if (x == "servidor_3") {
+            cpu_display1.style.display = `none`;
+            cpu_display2.style.display = `none`;
+            cpu_display3.style.display = `block`;
+
+            memoriaRam_display1.style.display = `none`;
+            memoriaRam_display2.style.display = `none`;
+            memoriaRam_display3.style.display = `block`;
+
+            disco_display1.style.display = `none`;
+            disco_display2.style.display = `none`;
+            disco_display3.style.display = `block`;
+        }
+    }
+
+    let btn = document.querySelector("#btn");
+    let sidebar = document.querySelector(".sidebar");
+    let searchBtn = document.querySelector(".bx-search-alt");
+
+    btn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+    searchBtn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+
+    let usuario;
+    let proximaAtualizacao;
+    let proximaAtualizacao2;
+    let proximaAtualizacao3;
+
+    function inicio() {
+        window.onload = obterDadosGraficoPrimeiraVez(1);
+        window.onload = obterDadosGraficoPrimeiraVez2(2);
+        window.onload = obterDadosGraficoPrimeiraVez3(3);
+    }
+
+    function atualizacaoPeriodica() {
+        obterdadosporservidor(1);
+        obterdadosporservidor(2);
+        obterdadosporservidor(3);
+        setTimeout(atualizacaoPeriodica, 2000);
+        nome_usuario();
+    }
+
+    function chamargraficos(codigoServidor) {
+        console.log("executei chamargraficos");
+        obterDadosGraficoPrimeiraVez(codigoServidor);
+        obterDadosGraficoPrimeiraVez2(codigoServidor);
+        obterDadosGraficoPrimeiraVez3(codigoServidor);
+
+        atualizarGrafico(codigoServidor);
+        atualizarGrafico2(codigoServidor);
+        atualizarGrafico3(codigoServidor);
+    }
+
+    verificar_autenticacao();
+
+    function nome_usuario() {
+        if (sessionStorage.nome_usuario_meuapp == undefined) {
+            window.location.href = 'loginecadastro.html';
+        } else {
+            var nome_usuario = sessionStorage.nome_usuario_meuapp;
+            console.log(nome_usuario)
+            nome_usuario_logado.innerHTML = `Bem-Vindo, ${nome_usuario}!`
+
+            var nome_usuario2 = sessionStorage.nome_usuario_meuapp;
+            console.log(nome_usuario2)
+            nome_usuario_logado2.innerHTML = `${nome_usuario2}!`
+        }
+    }
+
+
+    function obterdadosporservidor(fkCodigoServidor) {
+        fetch(`/leituras/dashboard-ow/${fkCodigoServidor}`)
+            .then(resposta => {
+
+                if (resposta.ok) {
+                    resposta.json().then(function (resposta) {
+
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                        var dados = {
+                            cpu: resposta.cpu,
+                            memoriaRam: resposta.memoriaRam,
+                            disco: resposta.disco
+                        }
+
+                        atualizarTela(dados, fkCodigoServidor);
+                    });
+                } else {
+
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados do servidor p/ gráfico: ${error.message}`);
+            });
+    }
+
+    function atualizarTela(dados, fkCodigoServidor) {
+        console.log('iniciando atualização da tela...');
+
+        var div_cpu_alterar
+        var div_memoriaRam_alterar
+        var div_disco_alterar
+
+        if (fkCodigoServidor == 1) {
+            div_cpu_alterar = div_cpu
+            div_memoriaRam_alterar = div_memoriaRam
+            div_disco_alterar = div_disco
+        } else if (fkCodigoServidor == 2) {
+            div_cpu_alterar = div_cpu2
+            div_memoriaRam_alterar = div_memoriaRam2
+            div_disco_alterar = div_disco2
+        } else if (fkCodigoServidor == 3) {
+            div_cpu_alterar = div_cpu3
+            div_memoriaRam_alterar = div_memoriaRam3
+            div_disco_alterar = div_disco3
+        }
+
+        div_cpu_alterar.innerHTML = `CPU: <br> ${dados.cpu}%`;
+
+        div_memoriaRam_alterar.innerHTML = `Memória Ram: <br> ${dados.memoriaRam}%`;
+
+        div_disco_alterar.innerHTML = `Disco: <br> ${dados.disco}%`;
+    }
+
+    function configurarGrafico() {
+        console.log("executei configurarGrafico")
+        var configuracoes = {
+            responsive: true,
+            animation: { duration: 500 },
+            hoverMode: 'index',
+            stacked: false,
+            title: {
+                display: true,
+                text: 'Gráfico de CPU'
+            },
+            scales: {
+                yAxes: [{
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    id: 'y-cpu',
+                    gridLines: {
+                        drawOnChartArea: false,
+                    },
+                },
+                ],
+            }
+        };
+
+        return configuracoes;
+    }
+
+    function configurarGrafico2() {
+        console.log("executei configurarGrafico2")
+        var configuracoes = {
+            responsive: true,
+            animation: { duration: 500 },
+            hoverMode: 'index',
+            stacked: false,
+            title: {
+                display: true,
+                text: 'Gráfico de Disco'
+            },
+            scales: {
+                yAxes: [{
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    id: 'y-disco',
+                    gridLines: {
+                        drawOnChartArea: false,
+                    },
+                },
+                ],
+            }
+        };
+
+        return configuracoes;
+    }
+
+    function configurarGrafico3() {
+        console.log("executei configurarGrafico3")
+        var configuracoes = {
+            responsive: true,
+            animation: { duration: 500 },
+            hoverMode: 'index',
+            stacked: false,
+            title: {
+                display: true,
+                text: 'Gráfico de Memória Ram'
+            },
+            scales: {
+                yAxes: [{
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    id: 'y-memoriaRam',
+                    gridLines: {
+                        drawOnChartArea: false,
+                    },
+                },
+                ],
+            }
+        };
+
+        return configuracoes;
+    }
+
+    function obterDadosGraficoPrimeiraVez(codigoServidor) {
+        console.log("executei obterDadosGraficoPrimeiraVez")
+
+        if (proximaAtualizacao != undefined) {
+            clearTimeout(proximaAtualizacao);
+        }
+
+
+        fetch(`/leituras/ultimas/${codigoServidor}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    resposta.reverse();
+
+                    var dados = {
+                        labels: [],
+                        datasets: [
+                            {
+                                yAxisID: 'y-cpu',
+                                label: 'CPU(%)',
+                                borderColor: 'blue',
+                                backgroundColor: 'blue',
+                                fill: false,
+                                data: []
+                            },
+                        ]
+                    };
+                    for (i = 0; i < resposta.length; i++) {
+                        var registro = resposta[i];
+                        dados.labels.push(registro.momento_grafico);
+                        dados.datasets[0].data.push(registro.cpu);
+                    }
+                    console.log(JSON.stringify(dados));
+                    div_aguarde.style.display = 'none';
+                    plotarGrafico(dados, codigoServidor);
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+
+    }
+
+
+    function obterDadosGraficoPrimeiraVez2(codigoServidor) {
+        console.log("executei obterDadosGraficoPrimeiraVez2")
+
+
+        if (proximaAtualizacao2 != undefined) {
+            clearTimeout(proximaAtualizacao2);
+        }
+
+        fetch(`/leituras/ultimas/${codigoServidor}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    resposta.reverse();
+
+                    var dados2 = {
+                        labels: [],
+                        datasets: [
+                            {
+                                yAxisID: 'y-disco',
+                                label: 'Disco(%)',
+                                borderColor: 'yellow',
+                                backgroundColor: 'yellow',
+                                fill: false,
+                                data: []
+                            },
+                        ]
+                    };
+                    for (i = 0; i < resposta.length; i++) {
+                        var registro = resposta[i];
+                        dados2.labels.push(registro.momento_grafico);
+                        dados2.datasets[0].data.push(registro.disco);
+                    }
+                    console.log(JSON.stringify(dados2));
+                    div_aguarde2.style.display = 'none';
+                    plotarGrafico2(dados2, codigoServidor);
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+
+
+    }
+    function obterDadosGraficoPrimeiraVez3(codigoServidor) {
+        console.log("executei obterDadosGraficoPrimeiraVez2")
+
+
+        if (proximaAtualizacao3 != undefined) {
+            clearTimeout(proximaAtualizacao3);
+        }
+
+        fetch(`/leituras/ultimas/${codigoServidor}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    resposta.reverse();
+
+                    var dados3 = {
+                        labels: [],
+                        datasets: [
+                            {
+                                yAxisID: 'y-memoriaRam',
+                                label: 'Memória Ram(GB)',
+                                borderColor: 'rgba(255,0,0,1)',
+                                backgroundColor: 'rgba(255,0,0,1)',
+                                fill: false,
+                                data: []
+                            },
+                        ]
+                    };
+                    for (i = 0; i < resposta.length; i++) {
+                        var registro = resposta[i];
+                        dados3.labels.push(registro.momento_grafico);
+                        dados3.datasets[0].data.push(registro.memoriaRam);
+                    }
+                    console.log(JSON.stringify(dados3));
+                    div_aguarde3.style.display = 'none';
+                    plotarGrafico3(dados3, codigoServidor);
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+
+
+    }
+
+    function atualizarGrafico(codigoServidor, dados) {
+        console.log("executei atualizarGrafico")
+        fetch(`/leituras/dashboard-ow/${codigoServidor}`, { cache: 'no-store' }).then(function (response) {
+            console.log("Estou tentando pegar codigoServidor = ", codigoServidor)
+            if (response.ok) {
+                response.json().then(function (novoRegistro) {
+
+                    console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+                    console.log(`Dados atuais do gráfico: ${dados}`);
+
+                    dados.labels.shift();
+                    dados.labels.push(novoRegistro.momento_grafico);
+                    dados.datasets[0].data.shift();
+                    dados.datasets[0].data.push(novoRegistro.cpu);
+
+                    console.log("meu Servidor é o " + codigoServidor)
+
+                    window.grafico_linha.update();
+
+
+                    proximaAtualizacao = setTimeout(() => atualizarGrafico(codigoServidor, dados), 5000);
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+                proximaAtualizacao = setTimeout(() => atualizarGrafico(codigoServidor, dados), 5000);
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+
+    function atualizarGrafico2(codigoServidor, dados2) {
+        console.log("executei atualizarGrafico2")
+
+
+        fetch(`/leituras/dashboard-ow/${codigoServidor}`, { cache: 'no-store' }).then(function (response) {
+            console.log("Estou tentando pegar codigoServidor = ", codigoServidor)
+            if (response.ok) {
+                response.json().then(function (novoRegistro) {
+
+                    console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+                    console.log(`Dados atuais do gráfico: ${dados2}`);
+
+                    dados2.labels.shift();
+                    dados2.labels.push(novoRegistro.momento_grafico);
+                    dados2.datasets[0].data.shift();
+                    dados2.datasets[0].data.push(novoRegistro.disco);
+
+                    console.log("meu Servidor é o " + codigoServidor)
+
+                    window.grafico_linha2.update();
+
+
+                    proximaAtualizacao2 = setTimeout(() => atualizarGrafico2(codigoServidor, dados2), 5000);
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+                proximaAtualizacao2 = setTimeout(() => atualizarGrafico2(codigoServidor, dados2), 5000);
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+
+    }
+    function atualizarGrafico3(codigoServidor, dados3) {
+        console.log("executei atualizarGrafico2")
+
+
+        fetch(`/leituras/dashboard-ow/${codigoServidor}`, { cache: 'no-store' }).then(function (response) {
+            console.log("Estou tentando pegar codigoServidor = ", codigoServidor)
+            if (response.ok) {
+                response.json().then(function (novoRegistro) {
+
+                    console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+                    console.log(`Dados atuais do gráfico: ${dados3}`);
+
+                    dados3.labels.shift();
+                    dados3.labels.push(novoRegistro.momento_grafico);
+                    dados3.datasets[0].data.shift();
+                    dados3.datasets[0].data.push(novoRegistro.memoriaRam);
+
+                    console.log("meu Servidor é o " + codigoServidor)
+
+                    window.grafico_linha3.update();
+
+
+                    proximaAtualizacao3 = setTimeout(() => atualizarGrafico3(codigoServidor, dados3), 5000);
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+                proximaAtualizacao3 = setTimeout(() => atualizarGrafico3(codigoServidor, dados3), 5000);
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+
+    }
+
+    function plotarGrafico(dados, codigoServidor) {
+        console.log("executei plotarGrafico")
+        console.log('iniciando plotagem do gráfico...');
+
+        var ctx = canvas_grafico.getContext('2d');
+        window.grafico_linha = Chart.Line(ctx, {
+            data: dados,
+            options: configurarGrafico()
+        });
+
+        setTimeout(() => atualizarGrafico(codigoServidor, dados), 5000);
+    }
+
+    function plotarGrafico2(dados2, codigoServidor) {
+        console.log("executei plotarGrafico2")
+        console.log('iniciando plotagem do gráfico...');
+
+        var ctx2 = canvas_grafico2.getContext('2d');
+        window.grafico_linha2 = Chart.Line(ctx2, {
+            data: dados2,
+            options: configurarGrafico2()
+        });
+
+        setTimeout(() => atualizarGrafico2(codigoServidor, dados2), 5000);
+    }
+    function plotarGrafico3(dados3, codigoServidor) {
+        console.log("executei plotarGrafico2")
+        console.log('iniciando plotagem do gráfico...');
+
+        var ctx3 = canvas_grafico3.getContext('2d');
+        window.grafico_linha3 = Chart.Line(ctx3, {
+            data: dados3,
+            options: configurarGrafico3()
+        });
+
+        setTimeout(() => atualizarGrafico3(codigoServidor, dados3), 5000);
+    }
+
+
+    function sendData() {
+        var http = new XMLHttpRequest();
+        http.open('GET', 'http://localhost:9001/api/sendData', false);
+        http.send(null);
+    }
+
+
+    setInterval(() => {
+        sendData();
+    }, 5000);
+</script>

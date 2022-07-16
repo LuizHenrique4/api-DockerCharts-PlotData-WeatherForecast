@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overwatch - Histórico</title>
+    <link rel="stylesheet" href="./css/dash-css.css">
+    <link rel="shortcut icon" href="Logo.png">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
+    <script type="text/javascript" src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script type="text/javascript" src="funcoes.js"></script>
+
+</head>
+
+<body onload="nome_usuario()" style="overflow-y: scroll">
+    <div class="sidebar">
+        <div class="logo-content">
+            <div class="logo">
+                <img src="./img/logo-overwatch.png">
+                <div class="nome_logo">Overwacth</div>
+            </div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="lista-nav">
+            <li style="display: none;">
+                <i class='bx bx-search-alt'></i>
+                <!-- <input type="text" placeholder="Procurar..."> -->
+                <!-- <span class="dica">Busca</span> -->
+            </li>
+            <li href="./principal.html">
+                <a href="./principal.html">
+                    <i class='bx bxs-dashboard' href="./principal.html"></i>
+                    <span class="links" href="./principal.html">Principal</span>
+                </a>
+                <span class="dica" href="./principal.html">Principal</span>
+            </li>
+            <li>
+                <a href="./cadastro-user.html">
+                    <i class='bx bx-chat' href="./cadastro-user"></i>
+                    <span class="links" href="./cadastro-user.html">Usuários</span>
+                </a>
+                <span class="dica" href="./cadastro-user.html">Usuários</span>
+            </li>
+            <li>
+                <a href="./pagina-admnistrador.html">
+                    <i class='bx bx-user' href="./pagina-admnistrador.html"></i>
+                    <span class="links" href="./pagina-admnistrador.html">Perfil</span>
+                </a>
+                <span class="dica" href="./pagina-admnistrador.html">Perfil</span>
+            </li>
+            <li href="./dashboard-ow.html">
+                <a href="./dashboard-ow.html">
+                    <i class='bx bx-pie-chart-alt-2' href="./dashboard-ow.html"></i>
+                    <spam class="links" href="./dashboard-ow.html">Graficos</spam>
+                </a>
+                <spam class="dica" href="./dashboard-ow.html">Graficos</spam>
+            </li>
+            <li href="./historico-ow.html">
+                <a href="./historico-ow.html">
+                    <i class='bx bx-history' href="./historico-ow.html"></i>
+                    <spam class="links" href="./historico-ow.html">Historico</spam>
+                </a>
+                <spam class="dica" href="./historico-ow.html">Historico</spam>
+            </li>
+        </ul>
+        <div class="perfil-content">
+            <div class="perfil">
+                <div class="icone-perfil">
+                    <img src="./img/logo-overwatch.png" alt="">
+                    <div class="cargo">
+                        <div id="nome_usuario_logado2" class="nome">Bruno Leonardo</div>
+                        <div class="trabalho">Desenvolvedor</div>
+                    </div>
+                </div>
+                <a href="#">
+
+                    <i class='bx bx-log-out' id='logout' onclick="logoff()"></i>
+                    <span class="links" onclick="logoff()"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="home-content">
+        <div class="header">
+            <div class="header-content">
+                <div class="container-name">
+                    <div id="nome_usuario_logado" class="nome-empresa">Bem vindo, Bruno Leonardo</div>
+                    <div class="ow">Histórico Overwatch</div>
+                </div>
+            </div>
+        </div>
+        <div class="teste">
+            <div class="container">
+                <div class="dashboard">
+                    <div class="graficos">
+                        <div id="div_aguarde">Dados sendo obtidos...</div>
+                        <canvas id="canvas_grafico"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
+
+<script>
+    let btn = document.querySelector("#btn");
+    let sidebar = document.querySelector(".sidebar");
+    let searchBtn = document.querySelector(".bx-search-alt");
+
+    btn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+    searchBtn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+
+    let usuario;
+    let proximaAtualizacao;
+    let proximaAtualizacao2;
+    let proximaAtualizacao3;
+
+
+    window.onload = obterDadosGraficoPrimeiraVez(1);
+
+
+    nome_usuario();
+
+
+    verificar_autenticacao();
+
+    function nome_usuario() {
+        if (sessionStorage.nome_usuario_meuapp == undefined) {
+            window.location.href = 'loginecadastro.html';
+        } else {
+            var nome_usuario = sessionStorage.nome_usuario_meuapp;
+            console.log(nome_usuario)
+            nome_usuario_logado.innerHTML = `Bem-Vindo, ${nome_usuario}!`
+
+            var nome_usuario2 = sessionStorage.nome_usuario_meuapp;
+            console.log(nome_usuario2)
+            nome_usuario_logado2.innerHTML = `${nome_usuario2}!`
+        }
+    }
+
+
+    function configurarGrafico() {
+        console.log("executei configurarGrafico")
+        var configuracoes = {
+            responsive: true,
+            animation: {
+                duration: 500
+            },
+            hoverMode: 'index',
+            stacked: false,
+            title: {
+                display: true,
+                text: 'Histórico de dados semanal'
+            },
+            scales: {
+                yAxes: [{
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    id: 'y',
+                }, {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    id: 'y-ri',
+                }, {
+                    type: 'linear',
+                    display: false,
+                    position: 'right',
+                    id: 'y-cpu',
+                }, {
+                    type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                    display: false,
+                    position: 'right',
+                    id: 'y-memoriaRam',
+                    gridLines: {
+                        drawOnChartArea: false,
+                    }
+                }, {
+                    type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                    display: false,
+                    position: 'right',
+                    id: 'y-disco',
+                    gridLines: {
+                        drawOnChartArea: false,
+                    }
+                },],
+            }
+        };
+
+        return configuracoes;
+    }
+
+
+    function obterDadosGraficoPrimeiraVez(codigoServidor) {
+        console.log("executei obterDadosGraficoPrimeiraVez")
+
+        if (proximaAtualizacao != undefined) {
+            clearTimeout(proximaAtualizacao);
+        }
+
+        fetch(`/leituras/historico-ow/${codigoServidor}`, {
+            cache: 'no-store'
+        }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    resposta.reverse();
+
+                    var dados = {
+                        labels: ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'],
+                        datasets: [{
+                            yAxisID: 'y',
+                            label: '',
+                            borderColor: 'rgba(0,0,0,0)',
+                            backgroundColor: 'rgba(0,0,0,0)',
+                            data: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+                        }, {
+                            yAxisID: 'y-ri',
+                            label: '  ',
+                            borderColor: 'rgba(0,0,0,0)',
+                            backgroundColor: 'rgba(0,0,0,0)',
+                            data: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+                        }, {
+                            label: 'CPU(%)',
+                            borderColor: 'blue',
+                            backgroundColor: 'blue',
+                            fill: false,
+                            data: []
+                        }, {
+                            label: 'Memória Ram(GB)',
+                            borderColor: 'rgba(255,0,255,1)',
+                            backgroundColor: 'rgba(255,0,255,1)',
+                            fill: false,
+                            data: []
+                        }, {
+                            label: 'Disco(%)',
+                            borderColor: 'black',
+                            backgroundColor: 'black',
+                            fill: false,
+                            data: []
+                        }]
+                    };
+                    for (i = 0; i < resposta.length; i++) {
+                        var registro = resposta[i];
+                        // dados.labels.push(registro.dayName);
+                        dados.datasets[2].data.push(registro.cpu);
+                        dados.datasets[3].data.push(registro.memoriaRam);
+                        dados.datasets[4].data.push(registro.disco);
+                        console.log("Dados inseridos com sucesso");
+                    }
+                    console.log(JSON.stringify(dados));
+                    div_aguarde.style.display = 'none';
+                    plotarGrafico(dados, codigoServidor);
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+
+    function atualizarGrafico(codigoServidor, dados) {
+        console.log("executei atualizarGrafico")
+        fetch(`/leituras/dashboard-ow/${codigoServidor}`, { cache: 'no-store' }).then(function (response) {
+            console.log("Estou tentando pegar codigoServidor = ", codigoServidor)
+            if (response.ok) {
+                response.json().then(function (novoRegistro) {
+
+                    console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+                    console.log(`Dados atuais do gráfico: ${dados}`);
+
+                    dados.labels.shift();
+                    dados.labels.push(novoRegistro.momento_grafico);
+                    dados.datasets[0].data.shift();
+                    dados.datasets[0].data.push(novoRegistro.cpu);
+
+                    console.log("meu Servidor é o " + codigoServidor)
+
+                    window.grafico_linha.update();
+
+
+                    proximaAtualizacao = setTimeout(() => atualizarGrafico(codigoServidor, dados), 9000000);
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+                proximaAtualizacao = setTimeout(() => atualizarGrafico(codigoServidor, dados), 9000000);
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+
+    function plotarGrafico(dados, codigoServidor) {
+        console.log("executei plotarGrafico")
+        console.log('iniciando plotagem do gráfico...');
+
+        var ctx = canvas_grafico.getContext('2d');
+        window.grafico_linha = Chart.Line(ctx, {
+            data: dados,
+            options: configurarGrafico()
+        });
+
+        setTimeout(() => atualizarGrafico(codigoServidor, dados), 9000000);
+    }
+
+    function sendData() {
+        var http = new XMLHttpRequest();
+        http.open('GET', 'http://localhost:9001/api/sendData', false);
+        http.send(null);
+    }
+
+
+    setInterval(() => {
+        sendData();
+    }, 9000000);
+</script>

@@ -1,0 +1,155 @@
+*{
+    font-family: "Oxygen", sans-serif;
+}
+
+.administrator-container {
+    background-color: white;
+    height: 100vh;
+    width: 45%;
+    margin: 2.5% 2.5%;
+    padding: 4px;
+    border-radius: 5px;
+    float: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.administrator-container .enterprise-information {
+    height: 80vh;
+    width: 50%;
+    float: left;
+    padding: 2%;
+}
+
+.administrator-container .metrics {
+    height: 80vh;
+    width: 50%;
+    float: left;
+    padding: 2%;
+    margin: auto;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.administrator-container .metrics .metrics-cpu {
+    /* width: 50%; */
+    margin: 0% 25%;
+    padding: 5px;
+    background-color: rgb(218, 218, 218);
+    border-radius: 5px;
+    width: 25vw;
+    height: 15vh;
+}
+
+.administrator-container .metrics .metrics-cpu span {
+    width: 35%;
+}
+
+.administrator-container .metrics .metrics-cpu .metrics-mean {
+    width: 30%;
+}
+
+.administrator-container .metrics .metrics-cpu .metrics-mean {
+    width: 30%;
+}
+
+.administrator-container .metrics .title-metrics {
+    font-weight: bold;
+    text-align: center;
+}
+
+.administrator-container .metrics .confirm-button {
+    margin: 0% 33%;
+    width: 33%;
+    padding: 5px;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 1440px) {
+    .home-content{
+        height:150vh;
+    }
+    .administrator-container{
+        height: 85vh;
+
+    }
+}
+
+@media screen and (max-width: 1140px) {
+    .administrator-container{
+        width: 90vw;
+        height: 105vh;
+    }
+    .administrator-container .enterprise-information{
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 1034px) {
+    .administrator-container .metrics .metrics-cpu{
+        width: 40vw;
+        height: 15vh;
+    }
+    .administrator-container .metrics{
+        margin: auto;
+        display:flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .administrator-container .metrics{
+        width: 90vw;
+        height: 100vh;
+    }
+}
+
+@media screen and (max-width: 967px) {
+    .administrator-container{
+        width: 90vw;
+        height: 115vh;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .administrator-container .metrics{
+        border-left: 1px solid white;
+    }
+    .home-content{
+        height:230vh;
+    }
+    .administrator-container{
+        width: 90vw;
+        height: 105vh;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 12%;
+    }
+    .administrator-container .enterprise-information {
+        width:75vw;
+    }
+    .administrator-container .enterprise-information h1{
+        width:75vw;
+        align-items: center;
+    }
+    .administrator-container .metrics {
+        width:75vw;
+    }
+}
+
+@media screen and (max-width: 665px) {
+    .administrator-container{
+        margin-left: 19%;
+    }
+}
+
+@media screen and (max-width: 534px) {
+    .administrator-container .metrics .metrics-cpu{
+        width: 40vw;
+        height: 20vh;
+    }
+}
